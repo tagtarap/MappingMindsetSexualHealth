@@ -1,0 +1,323 @@
+---
+title: "OpenScript_MappingMindsetSexualHealth"
+author: "Tris"
+date: "2024-10-19"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+###This script is is associated with the publication by Agtarap and Adair for the manuscript titled: "Cultural Mindset and Social Policy: Mapping Sexual Health-Related Policies Across The United States of America". 
+
+#install packages
+
+library(rstudioapi)
+library(ggplot2)
+library(ggpattern)
+library(sf)
+library(tigris)
+library(maps)
+library(Cairo)
+library(lm.beta)
+library(emmeans)
+
+packageVersion("ggplot2")
+
+```
+
+```{r}
+setwd()
+
+MapTLSexEd <- read.csv() 
+```
+
+# Mapping TL X Abortion
+
+```{r}
+# set class of map functions and retrieve state names and spatial properties
+options(tigris_class = "sf")
+usa_states <- states()
+
+# retrieve the us map data from the sf package and merge it with my dataframe
+merged_data <- merge(usa_states, MapTLSexEd, by.x = "NAME", by.y = "State")
+
+# make variables into factors if you plan to put them in plot
+merged_data$Abortion_Status <- as.factor(merged_data$Abortion.Status)
+
+# plot the data with shading and patterning to indicate variable values
+TL_Abortion <- ggplot(data = merged_data) +
+  geom_sf_pattern(aes(fill = Tighness.Looseness.Score, # fill based on tightness-looseness
+                      pattern = Abortion_Status)) + # plots the map (this takes a while)
+                      scale_pattern_manual(values = c("Greatly Restricted" = "crosshatch",
+                                           "Ban Blocked" = "wave",
+                                           "Protections in Place" = "circle")) +
+  scale_fill_viridis_c(option = "mako", direction = -1) +  # pretty color scale, you can use different scales by changing "plasma" to different options
+  theme_classic() + # removes the ugly grid lines in the background
+  coord_sf(xlim = c(-130, -65), ylim = c(25, 50)) + # Set x and y limits to focus on mainland US and Alaska
+  labs(title = "USA: Tightness-Looseness X Abortion Status", fill = "Score") + # title for the plot
+  theme(legend.position = "bottom") # where should the legend go?
+
+TL_Abortion
+
+#directory path where you want to save the PDF
+output_path <- "/Users/tristinagtarap/Library/Mobile Documents/com~apple~CloudDocs/Brunel PhD/MappingMindsetSexualHealth/Results"
+ggsave(file.path(output_path,"TLXAbortionLegality.pdf"), plot = TL_Abortion, width = 8, height = 6)
+
+pdf("TLXAbortionState.pdf", width = 9.5, height = 6)
+print(TL_Abortion)
+dev.off()
+
+cairo_pdf("AbortionMapUpdated.pdf", width = 9.5, height = 6)
+print(TL_Abortion)
+dev.off()
+```
+
+# Mapping TL X Sex Education
+```{r}
+# set class of map functions and retrieve state names and spatial properties
+options(tigris_class = "sf")
+usa_states <- states()
+
+# retrieve the us map data from the sf package and merge it with my dataframe
+merged_data <- merge(usa_states, MapTLSexEd, by.x = "NAME", by.y = "State")
+
+# make variables into factors if you plan to put them in plot
+merged_data$Sex.Education <- as.factor(merged_data$Sex.Education.Mandate)
+
+# plot the data with shading and patterning to indicate variable values
+TL_SexEducation <- ggplot(data = merged_data) +
+  geom_sf_pattern(aes(fill = Tighness.Looseness.Score, # fill based on tightness-looseness
+                      pattern = Sex.Education)) + # plots the map (this takes a while)
+                      scale_pattern_manual(values = c("No Mandate" = "wave",
+                                           "Mandated" = "circle")) +
+  scale_fill_viridis_c(option = "magma", direction = -1) +  # pretty color scale, you can use different scales by changing "plasma" to different options
+  theme_classic() + # removes the ugly grid lines in the background
+  coord_sf(xlim = c(-130, -65), ylim = c(25, 50)) + # Set x and y limits to focus on mainland US and Alaska
+  labs(title = "USA: Tightness-Looseness X Sex Education Mandates", fill = "Score") + # title for the plot
+  theme(legend.position = "bottom") # where should the legend go?
+
+TL_SexEducation
+
+cairo_pdf("C_TL_SexEd2.0.pdf", width = 9.5, height = 6)
+print(TL_SexEducation)
+dev.off()
+```
+
+# Mapping TL X Sex Education Specified
+```{r}
+names(MapTLSexEd)
+
+# set class of map functions and retrieve state names and spatial properties
+options(tigris_class = "sf")
+usa_states <- states()
+
+# retrieve the us map data from the sf package and merge it with my dataframe
+merged_data <- merge(usa_states, MapTLSexEd, by.x = "NAME", by.y = "State")
+
+# make variables into factors if you plan to put them in plot
+merged_data$Sex.Education <- as.factor(merged_data$Sex.Ed.Mandate.Specified)
+
+# Define custom legend labels
+custom_labels <- c(
+  "No Mandate" = "No Mandate",
+  "Abstinence-Focused Sex Education" = "Abstinence-Focused",
+  "Abstinence-Plus Sex Education" = "Abstinence-Plus",
+  "Comprehensive Sex Education" = "Comprehensive",
+  "Mandated: Unclear Outlines" = "Not Specified")
+
+# plot the data with shading and patterning to indicate variable values
+TL_SexEducationMandated <- ggplot(data = merged_data) +
+  geom_sf_pattern(aes(fill = Tighness.Looseness.Score, # fill based on tightness-looseness
+                      pattern = Sex.Education)) + # plots the map (this takes a while) +
+  geom_sf_text(aes(label = STUSPS), color = "black", size = 3) +  # Add state abbreviations
+  scale_pattern_manual(values = c("No Mandate" = "none",
+                                           "Abstinence-Focused Sex Education" = "crosshatch",
+                                           "Abstinence-Plus Sex Education" = "stripe",
+                                           "Comprehensive Sex Education" = "circle",
+                                           "Mandated: Unclear Outlines" = "wave"), labels = custom_labels) + ##Apply custom labels
+  scale_fill_viridis_c(option = "magma", direction = -1) +  # pretty color scale, you can use different scales by changing "plasma" to different options
+  theme_classic() + # removes the ugly grid lines in the background
+  coord_sf(xlim = c(-130, -65), ylim = c(25, 50)) + # Set x and y limits to focus on mainland US and Alaska
+  theme(legend.position = "bottom") # where should the legend go?
+
+TL_SexEducationMandated
+
+cairo_pdf("MandatedSexEd.pdf", width = 9.5, height = 6)
+print(TL_SexEducationMandated)
+dev.off()
+```
+
+#Subsetting data without no mandate states:
+```{r}
+library(sf)
+library(tigris)
+library(ggplot2)
+
+options(tigris_class = "sf")
+usa_states <- states()
+
+# retrieve the us map data from the sf package and merge it with my dataframe
+merged_data <- merge(usa_states, MapTLSexEd, by.x = "NAME", by.y = "State")
+
+# Filter out states with "No Mandate"
+merged_data <- merged_data[merged_data$Sex.Ed.Mandate.Specified != "No Mandate", ]
+
+# make variables into factors if you plan to put them in plot
+merged_data$Sex.Education <- as.factor(merged_data$Sex.Ed.Mandate.Specified)
+
+# Define custom legend labels
+custom_labels <- c(
+  "No Mandate" = "No Mandate",
+  "Abstinence-Focused Sex Education" = "Abstinence-Focused",
+  "Abstinence-Plus Sex Education" = "Abstinence-Plus",
+  "Comprehensive Sex Education" = "Comprehensive",
+  "Mandated: Unclear Outlines" = "Ambiguous")
+
+# plot the data with shading and patterning to indicate variable values
+TL_SexEducation <- ggplot(data = merged_data) +
+  geom_sf_pattern(aes(fill = Tighness.Looseness.Score, # fill based on tightness-looseness
+                      pattern = Sex.Education)) + # plots the map (this takes a while)
+                      scale_pattern_manual(values = c("No Mandate" = "crosshatch",
+                                           "Abstinence-Focused Sex Education" = "wave",
+                                           "Abstinence-Plus Sex Education" = "stripe",
+                                           "Comprehensive Sex Education" = "circle",
+                                           "Mandated: Unclear Outlines" = "none"), labels = custom_labels) + ##Apply custom labels
+  scale_fill_viridis_c(option = "magma", direction = -1) +  # pretty color scale, you can use different scales by changing "plasma" to different options
+  theme_classic() + # removes the ugly grid lines in the background
+  coord_sf(xlim = c(-130, -65), ylim = c(25, 50)) + # Set x and y limits to focus on mainland US and Alaska
+  labs(title = "USA: Tightness-Looseness X Sex Education Mandates", fill = "Score") + # title for the plot
+  theme(legend.position = "bottom") # where should the legend go?
+
+print(TL_SexEducation)
+
+
+```
+
+#ifnomandate
+```{r}
+options(tigris_class = "sf")
+usa_states <- states()
+
+# retrieve the us map data from the sf package and merge it with my dataframe
+merged_data <- merge(usa_states, MapTLSexEd, by.x = "NAME", by.y = "State")
+
+# make variables into factors if you plan to put them in plot
+merged_data$NoMandate <- as.factor(merged_data$IfNoMandate)
+names(merged_data$IfNoMandate)
+
+
+# plot the data with shading and patterning to indicate variable values
+TL_SexEducationNoMandate <- ggplot(data = merged_data) +
+  geom_sf_pattern(aes(fill = Tighness.Looseness.Score, # fill based on tightness-looseness
+                      pattern = NoMandate)) + # plots the map (this takes a while) +
+  geom_sf_text(aes(label = STUSPS), color = "black", size = 3) +  # Add state abbreviations
+  scale_pattern_manual(values = c("Mandated" = "none",
+                                           "AbstinenceOnly" = "crosshatch",
+                                           "AbstinencePlus" = "stripe",
+                                           "Comprehensive" = "circle",
+                                           "NoStandard" = "wave")) + ##Apply custom labels
+  scale_fill_viridis_c(option = "magma", direction = -1) +  # pretty color scale, you can use different scales by changing "plasma" to different options
+  theme_classic() + # removes the ugly grid lines in the background
+  coord_sf(xlim = c(-130, -65), ylim = c(25, 50)) + # Set x and y limits to focus on mainland US and Alaska
+  theme(legend.position = "bottom") # where should the legend go?
+
+TL_SexEducationNoMandate
+
+cairo_pdf("IfNoMandateSexEd.pdf", width = 9.5, height = 6)
+print(TL_SexEducationNoMandate)
+dev.off()
+```
+
+#OnlyColorFill
+```{r}
+# set class of map functions and retrieve state names and spatial properties
+library(tigris)
+library(sf)
+library(ggplot2)
+
+options(tigris_class = "sf")
+usa_states <- states()
+
+# retrieve the us map data from the sf package and merge it with my dataframe
+merged_data <- merge(usa_states, MapTLSexEd, by.x = "NAME", by.y = "State")
+
+
+# plot the data with shading to indicate 'Tighness.Looseness.Score'
+TL_SexEducationFillOnly <- ggplot(data = merged_data) +
+  geom_sf(aes(fill = Tighness.Looseness.Score)) + # fill based on tightness-looseness
+  scale_fill_viridis_c(option = "magma", direction = -1) +  # pretty color scale, you can use different scales by changing "plasma" to different options
+  theme_classic() + # removes the ugly grid lines in the background
+  coord_sf(xlim = c(-130, -65), ylim = c(25, 50)) + # Set x and y limits to focus on mainland US and Alaska
+  labs(title = "USA: Tightness-Looseness * Sex Education Mandates", fill = "Score", # title for the plot
+       x = "Score", y = " ") +  # change x-axis label
+  theme(legend.position = "right") # where should the legend go?
+
+print(TL_SexEducationFillOnly)
+
+
+cairo_pdf("SexEdFillOnly.pdf", width = 9.5, height = 6)
+print(TL_SexEducationFillOnly )
+dev.off()
+```
+
+#Regression Models Sex Education (mandated)
+```{r}
+# Ensure the categorical variable is treated as a factor
+MapTLSexEd$Sex.Ed.Mandate.Specified <- as.factor(MapTLSexEd$Sex.Ed.Mandate.Specified)
+MapTLSexEd$Sex.Ed.Mandate.Specified <- droplevels(MapTLSexEd$Sex.Ed.Mandate.Specified, exclude = "Mandated: Unclear Outlines")
+MapTLSexEd$Sex.Ed.Mandate.Specified <- relevel(MapTLSexEd$Sex.Ed.Mandate.Specified, ref = "Abstinence-Focused")
+
+# Run the linear regression model
+TLSexEdModel <- lm(Tighness.Looseness.Score ~ Sex.Ed.Mandate.Specified, data = MapTLSexEd)
+TLSexEDBetaModel <- lm.beta(TLSexEdModel)
+
+# Display the summary of the regression model
+summary(TLSexEdModel)
+summary(TLSexEDBetaModel)
+
+# Get marginal means and standard errors
+marginal_means <- emmeans(TLSexEDBetaModel, ~ Sex.Ed.Mandate.Specified)
+
+# Display the results
+summary(marginal_means)
+plot(marginal_means)
+
+table(MapTLSexEd$Sex.Ed.Mandate.Specified)
+```
+
+
+#Regression Models Sex Education (nonmandated)
+```{r}
+
+TLSexEdModelnoman <- lm(Tighness.Looseness.Score ~ IfNoMandate, data = MapTLSexEd)
+
+# Display the summary of the regression model
+summary(TLSexEdModelnoman)
+
+citation("lm.beta")
+```
+
+#Regression Models Abortion Access
+```{r}
+MapTLSexEd$Abortion.Status <- as.factor(MapTLSexEd$Abortion.Status)
+MapTLSexEd$Abortion.Status <- relevel(MapTLSexEd$Abortion.Status, ref = "Greatly Restricted")
+
+# Run the linear regression model
+TLAbortionModel <- lm(Tighness.Looseness.Score ~ Abortion.Status, data = MapTLSexEd)
+TLAbortionBetaModel <- lm.beta(TLAbortionModel)
+
+# Display the summary of the regression model
+summary(TLAbortionModel)
+summary(TLAbortionBetaModel)
+
+# Get marginal means and standard errors
+marginal_means2 <- emmeans(TLAbortionBetaModel, ~ Abortion.Status)
+
+# Display the results
+summary(marginal_means2)
+```
+
+

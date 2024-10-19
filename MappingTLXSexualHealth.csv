@@ -1,0 +1,51 @@
+﻿State,Tighness-Looseness Score,Abortion Status,Abortion Legality,Sex Education Mandate,Sex Ed Mandate Specified,IfNoMandate
+Mississippi,78.86,Greatly Restricted,Banned or restricted,Mandated,Abstinence-Focused Sex Education,Mandated
+Alabama,75.45,Greatly Restricted,Banned or restricted,No Mandate,No Mandate,AbstinenceOnly
+Arkansas,75.03,Greatly Restricted,Banned or restricted,No Mandate,No Mandate,AbstinenceOnly
+Oklahoma,75.03,Greatly Restricted,Banned or restricted,No Mandate,No Mandate,AbstinenceOnly
+Tennessee,68.81,Greatly Restricted,Banned or restricted,Mandated,Abstinence-Focused Sex Education,Mandated
+Texas,67.54,Greatly Restricted,Banned or restricted,No Mandate,No Mandate,AbstinenceOnly
+Louisiana,65.88,Greatly Restricted,Banned or restricted,No Mandate,No Mandate,AbstinenceOnly
+Kentucky,63.91,Greatly Restricted,Banned or restricted,Mandated,Abstinence-Focused Sex Education,Mandated
+South Carolina,61.39,Greatly Restricted,Banned or restricted,Mandated,Abstinence-Focused Sex Education,Mandated
+North Carolina,60.67,Greatly Restricted,Banned or restricted,Mandated,Abstinence-Focused Sex Education,Mandated
+Kansas,60.36,Protections in Place,Legal,Mandated,Abstinence-Focused Sex Education,Mandated
+Georgia,60.26,Greatly Restricted,Banned or restricted,Mandated,Abstinence-Focused Sex Education,Mandated
+Missouri,59.6,Greatly Restricted,Banned or restricted,No Mandate,No Mandate,AbstinenceOnly
+Virginia,57.37,Protections in Place,Legal,No Mandate,No Mandate,AbstinenceOnly
+Indiana,54.57,Greatly Restricted,Ban blocked,No Mandate,No Mandate,AbstinenceOnly
+Pennsylvania,52.75,Protections in Place,Legal,No Mandate,No Mandate,AbstinenceOnly
+West Virginia,52.48,Greatly Restricted,Banned or restricted,Mandated,Abstinence-Focused Sex Education,Mandated
+Ohio,52.3,Ban Blocked,Ban blocked,Mandated,Abstinence-Focused Sex Education,Mandated
+Wyoming,51.94,Ban Blocked,Ban blocked,No Mandate,No Mandate,NoStandard
+North Dakota,51.44,Greatly Restricted,Banned or restricted,Mandated,Abstinence-Focused Sex Education,Mandated
+South Dakota,51.14,Greatly Restricted,Banned or restricted,No Mandate,No Mandate,AbstinenceOnly
+Delaware,51.02,Protections in Place,Legal,Mandated,Abstinence-Plus Sex Education,Mandated
+Utah,49.69,Greatly Restricted,Banned or restricted,Mandated,Abstinence-Focused Sex Education,Mandated
+Nebraska,49.65,Greatly Restricted,Banned or restricted,No Mandate,No Mandate,AbstinenceOnly
+Florida,49.28,Greatly Restricted,Banned or restricted,No Mandate,No Mandate,AbstinenceOnly
+Iowa,49.02,Ban Blocked,Ban blocked,Mandated,Abstinence-Focused Sex Education,Mandated
+Michigan,48.93,Protections in Place,Legal,No Mandate,No Mandate,AbstinenceOnly
+Minnesota,47.84,Protections in Place,Legal,Mandated,Abstinence-Plus Sex Education,Mandated
+Arizona,47.56,Greatly Restricted,Banned or restricted,No Mandate,No Mandate,AbstinenceOnly
+Wisconsin,46.91,Greatly Restricted,Banned or restricted,No Mandate,No Mandate,AbstinenceOnly
+Montana,46.11,Ban Blocked,Ban blocked,Mandated,Abstinence-Plus Sex Education,Mandated
+Illinois,45.95,Protections in Place,Legal,No Mandate,No Mandate,AbstinencePlus
+Idaho,45.5,Greatly Restricted,Banned or restricted,No Mandate,No Mandate,AbstinenceOnly
+Maryland,45.5,Protections in Place,Legal,Mandated,Abstinence-Plus Sex Education,Mandated
+New Mexico,45.43,Protections in Place,Legal,Mandated,Abstinence-Focused Sex Education,Mandated
+Rhode Island,43.23,Protections in Place,Legal,Mandated,Abstinence-Plus Sex Education,Mandated
+Colorado,42.92,Protections in Place,Legal,No Mandate,No Mandate,Comprehensive
+New Jersey,39.48,Protections in Place,Legal,Mandated,Abstinence-Plus Sex Education,Mandated
+New York,39.42,Protections in Place,Legal,No Mandate,No Mandate,AbstinenceOnly
+Alaska,38.43,Protections in Place,Legal,No Mandate,No Mandate,NoStandard
+Vermont,37.23,Protections in Place,Legal,Mandated,Abstinence-Plus Sex Education,Mandated
+New Hampshire,36.97,Protections in Place,Legal,Mandated,Abstinence-Plus Sex Education,Mandated
+Hawaii,36.49,Protections in Place,Legal,Mandated,Abstinence-Plus Sex Education,Mandated
+Connecticut,36.37,Protections in Place,Legal,No Mandate,No Mandate,NoStandard
+Massachusetts,35.12,Protections in Place,Legal,No Mandate,No Mandate,AbstinenceOnly
+Maine,34,Protections in Place,Legal,Mandated,Abstinence-Plus Sex Education,Mandated
+Nevada,33.61,Protections in Place,Legal,Mandated,Mandated: Unclear Outlines,Mandated
+Washington,31.06,Protections in Place,Legal,Mandated,Abstinence-Plus Sex Education,Mandated
+Oregon,30.07,Protections in Place,Legal,Mandated,Abstinence-Plus Sex Education,Mandated
+California,27.37,Protections in Place,Legal,Mandated,Comprehensive Sex Education,Mandated
